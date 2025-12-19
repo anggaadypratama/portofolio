@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model HeroSection {
+  id                   Int      @id @default(1)
+  preTitle             String   @default("Hello_World")
+  headlineLine1        String   @default("I AM ANGGA")
+  headlineLine2        String   @default("ADY PRATAMA")
+  introParagraph       String   @default("I am a web developer driven by curiosity and continuous learning, dedicated to creating impactful and maintainable web solutions.")
+  updatedAt            DateTime @updatedAt
+}
+
+model AboutSection {
+  id        Int      @id @default(1)
+  content   String   @default("Navigating the digital landscape with code as my compass. With a deep-rooted passion for technology, I specialize in crafting robust front-end architectures that are both scalable and user-centric.")
+  updatedAt DateTime @updatedAt
+}
+
+model ExperienceEntry {
+  id              String   @id @default(cuid())
+  order           Int      @default(0)
+  company         String
+  role            String
+  projectName     String?
+  duration        String
+  description     String
+  techStack       String[]
+  imageUrl        String?
+  isActive        Boolean  @default(true)
+  updatedAt       DateTime @updatedAt
+}
+
+model Skill {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  order     Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model tool {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  order     Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model ContactInfo {
+  id           Int      @id @default(1)
+  primaryEmail String   @default("angga.ady@gmail.com")
+  githubUrl    String?  @default("github.com/angga-ady")
+  linkedinUrl  String?  @default("linkedin.com/in/angga-ady")
+  updatedAt    DateTime @updatedAt
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
