@@ -29,6 +29,7 @@ model ExperienceEntry {
   projectName     String?
   duration        String
   description     String
+  goal            String?
   techStack       String[]
   imageUrl        String?
   isActive        Boolean  @default(true)

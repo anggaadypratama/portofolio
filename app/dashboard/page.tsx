@@ -26,6 +26,7 @@ interface PortfolioData {
     duration: string;
     projectName?: string;
     description: string;
+    goal?: string;
     order: number;
     imageUrl?: string;
     techStack: string[];
@@ -345,6 +346,7 @@ export default function DashboardPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
                 <Input name="company" label="Company" defaultValue={portfolio.experience.find(e => e.id === editingExperienceId)?.company} required />
                 <Input name="role" label="Role" defaultValue={portfolio.experience.find(e => e.id === editingExperienceId)?.role} required />
+                <Input name="projectName" label="Project Name" defaultValue={portfolio.experience.find(e => e.id === editingExperienceId)?.projectName || ""} />
                 <Input name="duration" label="Duration" defaultValue={portfolio.experience.find(e => e.id === editingExperienceId)?.duration} required />
                 <Input name="order" label="Order" type="number" defaultValue={portfolio.experience.find(e => e.id === editingExperienceId)?.order ?? (portfolio.experience.length + 1)} required />
                 
@@ -370,29 +372,33 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block font-mono font-bold text-app-fg text-xs uppercase tracking-widest mb-3">Tech Stack (Skills)</label>
-                  <div className="flex flex-wrap gap-2 p-3 border-2 border-app-border bg-app-bg/50">
-                    {portfolio.skills.map(skill => (
+                  <label className="block font-mono font-bold text-app-fg text-xs uppercase tracking-widest mb-3">Tech Stack (Skills & Tools)</label>
+                  <div className="flex flex-wrap gap-2 p-3 border-2 border-app-border bg-app-bg/50 max-h-40 overflow-y-auto">
+                    {[...portfolio.skills, ...portfolio.tools].sort((a, b) => a.name.localeCompare(b.name)).map(item => (
                       <button
-                        key={skill.id}
+                        key={item.id}
                         type="button"
                         onClick={() => {
                           setSelectedTech(prev => 
-                            prev.includes(skill.name) 
-                              ? prev.filter(s => s !== skill.name) 
-                              : [...prev, skill.name]
+                            prev.includes(item.name) 
+                              ? prev.filter(s => s !== item.name) 
+                              : [...prev, item.name]
                           );
                         }}
                         className={`px-2 py-1 text-[10px] font-mono border-2 transition-all ${
-                          selectedTech.includes(skill.name)
+                          selectedTech.includes(item.name)
                             ? "bg-primary border-primary text-white"
                             : "border-app-border text-app-muted hover:border-primary"
                         }`}
                       >
-                        {skill.name}
+                        {item.name}
                       </button>
                     ))}
                   </div>
+                </div>
+
+                <div className="md:col-span-2">
+                   <TextArea name="goal" label="Goal Achieved" defaultValue={portfolio.experience.find(e => e.id === editingExperienceId)?.goal || ""} />
                 </div>
 
                 <div className="md:col-span-2">

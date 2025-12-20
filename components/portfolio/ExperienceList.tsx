@@ -9,6 +9,7 @@ interface ExperienceItem {
   duration: string;
   projectName?: string | null;
   description: string;
+  goal?: string;
   techStack: string[];
   imageUrl?: string | null;
   order: number;
@@ -96,6 +97,17 @@ export const ExperienceList = ({ items }: ExperienceListProps) => {
                       <p className="text-app-fg/90 mb-6 leading-relaxed">
                         {exp.description}
                       </p>
+                      
+                      {exp.goal && (
+                        <div className="border-l-4 border-primary pl-6 py-4 bg-primary/10 mb-8 rounded-r-md">
+                            <span className="block text-xs font-bold font-mono text-primary uppercase mb-2 tracking-widest">
+                              Goal Achieved:
+                            </span>
+                            <p className="text-base text-app-fg italic font-medium leading-relaxed">
+                              &quot;{exp.goal}&quot;
+                            </p>
+                        </div>
+                      )}
                     </div>
 
                     {/* Tech Stack Skills */}
