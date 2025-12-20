@@ -130,7 +130,7 @@ app.get('/portfolio/tools', async (c) => {
     return c.json(data)
   } catch (error: any) {
     console.error('Error fetching tools:', error)
-    return c.json({ error: 'Failed to fetch tools', details: error.message }, 500)
+    return c.json({ error: 'Failed to fetch tools', details: error?.message }, 500)
   }
 })
 
