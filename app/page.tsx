@@ -8,6 +8,8 @@ import { TechStack } from "@/components/portfolio/TechStack";
 import { Contact } from "@/components/portfolio/Contact";
 import { Footer } from "@/components/portfolio/Footer";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const [hero, about, experience, skills, tools, contact] = await Promise.all([
     prisma.heroSection.findFirst(),
