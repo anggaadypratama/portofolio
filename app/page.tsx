@@ -41,29 +41,112 @@ export default async function Home() {
       "Creative Coding",
     ];
 
+  // Structured Data for SEO
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://anggaadypratama.com';
+  
+  const personSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Angga Ady Pratama',
+    url: baseUrl,
+    jobTitle: 'Web Developer',
+    description: hero?.introParagraph || 'Web developer driven by curiosity and continuous learning.',
+    email: contact?.primaryEmail,
+    sameAs: [
+      contact?.githubUrl,
+      contact?.linkedinUrl,
+    ].filter(Boolean),
+    knowsAbout: skills.map((s: { name: string }) => s.name),
+  };
+
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Angga Ady Pratama Portfolio',
+    url: baseUrl,
+    description: 'Web developer driven by curiosity and continuous learning.',
+    author: {
+      '@type': 'Person',
+      name: 'Angga Ady Pratama',
+    },
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: baseUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'About',
+        item: `${baseUrl}/#about`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'Experience',
+        item: `${baseUrl}/#experience`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: 'Tech Stack',
+        item: `${baseUrl}/#techstack`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 5,
+        name: 'Contact',
+        item: `${baseUrl}/#contact`,
+      },
+    ],
+  };
+
   return (
-    <main className="min-h-screen bg-app-bg text-app-fg transition-colors duration-300">
-      <Navbar />
-      <Hero 
-        preTitle={hero?.preTitle}
-        headlineLine1={hero?.headlineLine1}
-        headlineLine2={hero?.headlineLine2}
-        introParagraph={hero?.introParagraph}
+    <>
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
-      <Marquee items={marqueeItems} />
-      <About content={about?.content} />
-      <ExperienceList 
-        initialItems={initialExperiences} 
-        initialTotal={totalExperiences}
-        initialPage={1}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
-      <TechStack items={skills} toolsItems={tools} />
-      <Contact 
-        email={contact?.primaryEmail}
-        github={contact?.githubUrl}
-        linkedin={contact?.linkedinUrl}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <Footer />
-    </main>
+      
+      <main className="min-h-screen bg-app-bg text-app-fg transition-colors duration-300">
+        <Navbar />
+        <Hero 
+          preTitle={hero?.preTitle}
+          headlineLine1={hero?.headlineLine1}
+          headlineLine2={hero?.headlineLine2}
+          introParagraph={hero?.introParagraph}
+        />
+        <Marquee items={marqueeItems} />
+        <About content={about?.content} />
+        <ExperienceList 
+          initialItems={initialExperiences} 
+          initialTotal={totalExperiences}
+          initialPage={1}
+        />
+        <TechStack items={skills} toolsItems={tools} />
+        <Contact 
+          email={contact?.primaryEmail}
+          github={contact?.githubUrl}
+          linkedin={contact?.linkedinUrl}
+        />
+        <Footer />
+      </main>
+    </>
   );
 }

@@ -182,7 +182,10 @@ export const ExperienceList = ({ initialItems, initialTotal, initialPage = 1 }: 
                           src={exp.imageUrl}
                           fill
                           sizes="(max-width: 1024px) 100vw, 40vw"
-                          loading="lazy"
+                          loading={idx === 0 ? "eager" : "lazy"}
+                          priority={idx === 0}
+                          placeholder="blur"
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center font-mono text-xs text-app-muted uppercase">

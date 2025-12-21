@@ -12,8 +12,8 @@
   --color-app-border: var(--app-border);
 
   /* Static Colors */
-  --color-primary: #EAB308;
-  
+  --color-primary: #eab308;
+
   --shadow-brutal: 6px 6px 0px 0px rgba(0, 0, 0, 1);
   --shadow-brutal-sm: 3px 3px 0px 0px rgba(0, 0, 0, 1);
   --shadow-brutal-primary: 6px 6px 0px 0px var(--color-primary);
@@ -21,32 +21,37 @@
   --animate-marquee: marquee 25s linear infinite;
 
   @keyframes marquee {
-    from { transform: translateX(0%); }
-    to { transform: translateX(-100%); }
+    from {
+      transform: translateX(0%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
   }
 }
 
 :root {
-  --app-bg: #F3F4F6;
+  --app-bg: #f3f4f6;
   --app-fg: #111827;
-  --app-surface: #FFFFFF;
-  --app-muted: #4B5563;
+  --app-surface: #ffffff;
+  --app-muted: #4b5563;
   --app-border: rgba(0, 0, 0, 1);
-  
+
   --shadow-effective: var(--shadow-brutal);
 }
 
 .dark {
-  --app-bg: #0A0A0A;
-  --app-fg: #F3F4F6;
+  --app-bg: #0a0a0a;
+  --app-fg: #f3f4f6;
   --app-surface: #18181b;
-  --app-muted: #9CA3AF;
+  --app-muted: #9ca3af;
   --app-border: rgba(255, 255, 255, 0.2);
-  
+
   --shadow-effective: var(--shadow-brutal-primary);
 }
 
-html, body {
+html,
+body {
   overflow-x: hidden;
   width: 100%;
 }
@@ -56,6 +61,35 @@ body {
   color: var(--app-fg);
   font-family: var(--font-sans);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Performance optimizations */
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Improve font loading performance */
+@supports (font-display: swap) {
+  @font-face {
+    font-display: swap;
+  }
+}
+
+/* Optimize animation performance */
+@keyframes marquee {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Add will-change for animated elements */
+.animate-marquee {
+  will-change: transform;
 }
 
 @layer utilities {
@@ -83,7 +117,8 @@ body {
   }
 
   .dash-grid-bg {
-    background-image: linear-gradient(var(--app-muted) 1px, transparent 1px), linear-gradient(90deg, var(--app-muted) 1px, transparent 1px);
+    background-image: linear-gradient(var(--app-muted) 1px, transparent 1px),
+      linear-gradient(90deg, var(--app-muted) 1px, transparent 1px);
     background-size: 20px 20px;
     background-color: var(--app-surface);
     background-blend-mode: soft-light;
