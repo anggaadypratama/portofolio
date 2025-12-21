@@ -43,6 +43,21 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     textAlign: 'center',
   },
+  // Compact skill items
+  skillsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 4,
+  },
+  compactSkillItem: {
+    backgroundColor: '#374151',
+    color: '#F3F4F6',
+    padding: '3 6',
+    marginRight: 4,
+    marginBottom: 4,
+    fontSize: 8,
+    borderRadius: 3,
+  },
   
   // Right Content
   main: {
@@ -146,11 +161,14 @@ interface CVDocumentProps {
     skills: Array<{
       name: string;
     }>;
+    tools: Array<{
+      name: string;
+    }>;
   };
 }
 
 export const CVDocument: React.FC<CVDocumentProps> = ({ data }) => {
-  const { hero, contact, experience, skills } = data;
+  const { hero, contact, experience, skills, tools } = data;
 
   return (
     <Document>
@@ -165,21 +183,35 @@ export const CVDocument: React.FC<CVDocumentProps> = ({ data }) => {
                   <Text style={styles.contactItem}>{contact.primaryEmail}</Text>
                 )}
                  {contact?.linkedinUrl && (
-                  <Text style={styles.contactItem}>in/ {contact.linkedinUrl.replace('https://linkedin.com/in/', '').replace('https://www.linkedin.com/in/', '')}</Text>
+                  <Text style={styles.contactItem}>Linkedin:  {contact.linkedinUrl.replace('https://linkedin.com/in/', '').replace('https://www.linkedin.com/in/', '')}</Text>
                 )}
                 {contact?.githubUrl && (
-                  <Text style={styles.contactItem}>git/ {contact.githubUrl.replace('https://github.com/', '')}</Text>
+                  <Text style={styles.contactItem}>Github: {contact.githubUrl.replace('https://github.com/', '')}</Text>
                 )}
             </View>
 
             {/* Skills */}
             <View>
                 <Text style={styles.sidebarTitle}>Skills</Text>
-                {skills.map((skill, index) => (
-                    <Text key={index} style={styles.skillItem}>
-                        {skill.name}
-                    </Text>
-                ))}
+                <View style={styles.skillsContainer}>
+                    {skills.map((skill, index) => (
+                        <Text key={index} style={styles.compactSkillItem}>
+                            {skill.name}
+                        </Text>
+                    ))}
+                </View>
+            </View>
+
+            {/* Tools & Core */}
+            <View>
+                <Text style={styles.sidebarTitle}>Tools & Core</Text>
+                <View style={styles.skillsContainer}>
+                    {tools.map((tool, index) => (
+                        <Text key={index} style={styles.compactSkillItem}>
+                            {tool.name}
+                        </Text>
+                    ))}
+                </View>
             </View>
         </View>
 
