@@ -1,5 +1,4 @@
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import QueryProvider from "@/components/providers/QueryProvider";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const breadcrumbs = [
@@ -8,10 +7,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <QueryProvider>
-      <DashboardLayout breadcrumbs={breadcrumbs}>
-        {children}
-      </DashboardLayout>
-    </QueryProvider>
+    <DashboardLayout breadcrumbs={breadcrumbs}>
+      {children}
+    </DashboardLayout>
   );
 }

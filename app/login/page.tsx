@@ -131,7 +131,7 @@ export default function LoginPage() {
       {/* Footer Bar */}
       <footer className="bg-[#FFD700] py-3 border-t-2 border-black overflow-hidden whitespace-nowrap">
         <div className="animate-marquee inline-block font-bold text-xs uppercase tracking-widest">
-            <span className="mx-4">Online • Database: Connected • Secure Connection Established • v2.0.4 Build 2023 • System Status: Online • Database: Connected • Secure Connection Established • v2.0.4 Build 2023 • System Status: Online</span>
+            <span className="mx-4">Online • Database: Connected • Secure Connection Established • System Status: Online • Database: Connected • Secure Connection Established • System Status: Online</span>
         </div>
       </footer>
     </div>

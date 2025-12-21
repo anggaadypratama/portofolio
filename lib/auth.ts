@@ -1,5 +1,5 @@
 
-import { SignJWT, jwtVerify } from 'jose';
+import { JWTPayload, SignJWT, jwtVerify } from 'jose';
 import bcrypt from 'bcryptjs';
 
 const SECRET_KEY = process.env.JWT_SECRET || 'super-secret-key-change-me-in-prod';
@@ -7,7 +7,7 @@ const key = new TextEncoder().encode(SECRET_KEY);
 
 export const SESSION_COOKIE_NAME = 'session_token';
 
-export async function encrypt(payload: any) {
+export async function encrypt(payload: JWTPayload) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
@@ -15,7 +15,7 @@ export async function encrypt(payload: any) {
     .sign(key);
 }
 
-export async function decrypt(input: string): Promise<any> {
+export async function decrypt(input: string): Promise<JWTPayload | null> {
     try {
         const { payload } = await jwtVerify(input, key, {
             algorithms: ['HS256'],

@@ -11,15 +11,25 @@ import { Footer } from "@/components/portfolio/Footer";
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const [hero, about, experience, skills, tools, contact] = await Promise.all([
+  const [hero, about, experienceData, skills, tools, contact] = await Promise.all([
     prisma.heroSection.findFirst(),
     prisma.aboutSection.findFirst(),
-    prisma.experienceEntry.findMany({ where: { isActive: true }, orderBy: { order: 'asc' } }),
+    // Fetch first 5 experiences and total count for pagination
+    Promise.all([
+      prisma.experienceEntry.findMany({ 
+        where: { isActive: true }, 
+        orderBy: { order: 'asc' },
+        take: 5,
+      }),
+      prisma.experienceEntry.count({ where: { isActive: true } }),
+    ]),
     prisma.skill.findMany({ orderBy: { order: 'asc' } }),
     // Standardized to lowercase 'tool' model
     (prisma as any).tool?.findMany({ orderBy: { order: 'asc' } }) || [],
     prisma.contactInfo.findFirst(),
   ]);
+
+  const [initialExperiences, totalExperiences] = experienceData;
 
   const marqueeItems = skills.length > 0 
     ? skills.map((s: { name: string }) => s.name)
@@ -42,7 +52,11 @@ export default async function Home() {
       />
       <Marquee items={marqueeItems} />
       <About content={about?.content} />
-      <ExperienceList items={experience} />
+      <ExperienceList 
+        initialItems={initialExperiences} 
+        initialTotal={totalExperiences}
+        initialPage={1}
+      />
       <TechStack items={skills} toolsItems={tools} />
       <Contact 
         email={contact?.primaryEmail}
