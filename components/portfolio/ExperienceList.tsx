@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Section } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { getExperiencePaginated } from "@/app/actions";
+import { motion } from "framer-motion";
 
 interface ExperienceItem {
   company: string;
@@ -23,6 +24,18 @@ interface ExperienceListProps {
   initialTotal: number;
   initialPage?: number;
 }
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+} as any;
 
 export const ExperienceList = ({ initialItems, initialTotal, initialPage = 1 }: ExperienceListProps) => {
   const [displayedItems, setDisplayedItems] = useState<ExperienceItem[]>(initialItems);
@@ -93,7 +106,14 @@ export const ExperienceList = ({ initialItems, initialTotal, initialPage = 1 }: 
           const skewClass = isSkewLeft ? "transform -skew-x-12" : "transform skew-x-12";
           
           return (
-            <div key={`${exp.order}-${idx}`} className="group relative">
+            <motion.div
+              key={`${exp.order}-${idx}`}
+              className="group relative"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={cardVariants}
+            >
               <div
                 className={`absolute top-0 right-0 bg-app-fg text-app-bg px-4 py-1 font-mono text-xs font-bold uppercase -mt-4 mr-4 z-10 ${skewClass} group-hover:bg-primary group-hover:text-black transition-colors border border-app-border`}
               >
@@ -174,7 +194,7 @@ export const ExperienceList = ({ initialItems, initialTotal, initialPage = 1 }: 
                   </div>
                 </div>
               </Card>
-            </div>
+            </motion.div>
           );
         })}
         
