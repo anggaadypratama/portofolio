@@ -7,6 +7,7 @@ import { AboutSection } from "@/components/dashboard/sections/AboutSection";
 import { ExperienceSection } from "@/components/dashboard/sections/ExperienceSection";
 import { SkillsSection } from "@/components/dashboard/sections/SkillsSection";
 import { ToolsSection } from "@/components/dashboard/sections/ToolsSection";
+import { EducationSection } from "@/components/dashboard/sections/EducationSection";
 import { ContactSection } from "@/components/dashboard/sections/ContactSection";
 
 export default function DashboardContent({ portfolio }: { portfolio: PortfolioData }) {
@@ -21,6 +22,7 @@ export default function DashboardContent({ portfolio }: { portfolio: PortfolioDa
       />
       <SkillsSection initialData={portfolio.skills} />
       <ToolsSection initialData={portfolio.tools} />
+      <EducationSection initialData={portfolio.education} />
       <ContactSection initialData={portfolio.contact} />
     </>
   );

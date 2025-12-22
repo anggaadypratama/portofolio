@@ -29,6 +29,15 @@ export interface PortfolioData {
     id: string;
     name: string;
   }[];
+  education: {
+    id: string;
+    institution: string;
+    degree: string;
+    field: string;
+    duration: string;
+    description: string | null;
+    order: number;
+  }[];
   contact: {
     primaryEmail?: string;
     githubUrl?: string;

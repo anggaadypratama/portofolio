@@ -58,6 +58,17 @@ model ContactInfo {
   updatedAt    DateTime @updatedAt
 }
 
+model Education {
+  id           String   @id @default(cuid())
+  institution  String
+  degree       String
+  field        String
+  duration     String
+  description  String?
+  order        Int      @default(0)
+  updatedAt    DateTime @updatedAt
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique

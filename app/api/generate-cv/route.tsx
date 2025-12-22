@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     // Fetch data from database
-    const [hero, contact, experience, skills, tools] = await Promise.all([
+    const [hero, contact, experience, skills, tools, education] = await Promise.all([
       prisma.heroSection.findFirst(),
       prisma.contactInfo.findFirst(),
       prisma.experienceEntry.findMany({
@@ -19,6 +19,9 @@ export async function GET() {
       prisma.tool.findMany({
         orderBy: { order: "asc" },
       }),
+      prisma.education.findMany({
+        orderBy: { order: "asc" },
+      }),
     ]);
 
     // Create a stream for the PDF
@@ -29,7 +32,8 @@ export async function GET() {
           contact,
           experience,
           skills,
-          tools
+          tools,
+          education
         }} 
       />
     );

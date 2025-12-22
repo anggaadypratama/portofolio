@@ -164,11 +164,19 @@ interface CVDocumentProps {
     tools: Array<{
       name: string;
     }>;
+    education: Array<{
+      id: string;
+      institution: string;
+      degree: string;
+      field: string;
+      duration: string;
+      description: string | null;
+    }>;
   };
 }
 
 export const CVDocument: React.FC<CVDocumentProps> = ({ data }) => {
-  const { hero, contact, experience, skills, tools } = data;
+  const { hero, contact, experience, skills, tools, education } = data;
 
   return (
     <Document>
@@ -246,6 +254,25 @@ export const CVDocument: React.FC<CVDocumentProps> = ({ data }) => {
                     </View>
                 ))}
             </View>
+
+            {/* Education */}
+            {education && education.length > 0 && (
+              <View>
+                  <Text style={styles.sectionTitle}>Education</Text>
+                  {education.map((edu) => (
+                      <View key={edu.id} style={styles.expItem}>
+                          <View style={styles.expHeader}>
+                              <Text style={styles.expCompany}>{edu.institution}</Text>
+                              <Text style={styles.expDate}>{edu.duration}</Text>
+                          </View>
+                          <Text style={styles.expRole}>{edu.degree} in {edu.field}</Text>
+                          {edu.description && (
+                            <Text style={styles.expDesc}>{edu.description}</Text>
+                          )}
+                      </View>
+                  ))}
+              </View>
+            )}
         </View>
 
       </Page>

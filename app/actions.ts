@@ -19,12 +19,13 @@ async function verifySession() {
 export async function getPortfolio() {
   // Publicly accessible if used by landing page, otherwise can protect.
   // Assuming safe to read for now, or let's verify if landing page uses it.
-  const [hero, about, experience, skills, tools, contact] = await Promise.all([
+  const [hero, about, experience, skills, tools, education, contact] = await Promise.all([
     prisma.heroSection.findFirst(),
     prisma.aboutSection.findFirst(),
     prisma.experienceEntry.findMany({ orderBy: { order: "asc" } }),
     prisma.skill.findMany({ orderBy: { order: "asc" } }),
     prisma.tool.findMany({ orderBy: { order: "asc" } }),
+    prisma.education.findMany({ orderBy: { order: "asc" } }),
     prisma.contactInfo.findFirst(),
   ]);
 
@@ -34,6 +35,7 @@ export async function getPortfolio() {
     experience: experience || [],
     skills: skills || [],
     tools: tools || [],
+    education: education || [],
     contact: contact || { id: 1 },
   };
 }
@@ -210,6 +212,70 @@ export async function deleteTool(id: string) {
   } catch (error) {
     console.error("Error deleting tool:", error);
     throw new Error("Failed to delete tool");
+  }
+}
+
+// --- EDUCATION SECTION ---
+export async function saveEducation(data: any) {
+  await verifySession();
+  try {
+    const { id, ...eduData } = data;
+
+    const formattedData = {
+      ...eduData,
+      order: typeof eduData.order === "string" ? parseInt(eduData.order, 10) : eduData.order,
+    };
+
+    let result;
+    if (id) {
+      result = await prisma.education.update({
+        where: { id },
+        data: formattedData,
+      });
+    } else {
+      result = await prisma.education.create({
+        data: formattedData,
+      });
+    }
+    revalidatePath("/dashboard");
+    revalidatePath("/");
+    return result;
+  } catch (error) {
+    console.error("Error saving education:", error);
+    throw new Error("Failed to save education");
+  }
+}
+
+export async function deleteEducation(id: string) {
+  await verifySession();
+  try {
+    await prisma.education.delete({ where: { id } });
+    revalidatePath("/dashboard");
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting education:", error);
+    throw new Error("Failed to delete education");
+  }
+}
+
+export async function reorderEducation(items: { id: string; order: number }[]) {
+  await verifySession();
+  try {
+    await prisma.$transaction(
+      items.map((item) =>
+        prisma.education.update({
+          where: { id: item.id },
+          data: { order: item.order },
+        })
+      )
+    );
+    revalidatePath("/dashboard");
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.error("Error reordering education:", error);
+    throw new Error("Failed to reorder education");
   }
 }
 
