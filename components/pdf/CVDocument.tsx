@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     textTransform: 'uppercase',
-    color: '#111827',
+    color: '#EAB308',
     borderBottomWidth: 2,
     borderBottomColor: '#EAB308',
     paddingBottom: 4,
@@ -111,23 +111,22 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   expCompany: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 'bold',
-    color: '#111827',
+    color: 'white',
   },
   expDate: {
-    fontSize: 9,
-    color: '#6B7280',
+    fontSize: 6,
+    color: 'white',
     fontStyle: 'italic',
   },
   expRole: {
-    fontSize: 10,
-    fontWeight: 'bold',
+    fontSize: 6,
     color: '#EAB308',
     marginBottom: 4,
   },
   expDesc: {
-    fontSize: 9,
+    fontSize: 8,
     color: '#4B5563',
     lineHeight: 1.5,
   },
@@ -198,6 +197,27 @@ export const CVDocument: React.FC<CVDocumentProps> = ({ data }) => {
                 )}
             </View>
 
+                        {/* Education */}
+            {education && education.length > 0 && (
+              <View>
+                  <Text style={styles.sectionTitle}>Education</Text>
+                  {education.map((edu) => (
+                      <View key={edu.id} style={styles.expItem}>
+                          <View style={styles.expHeader}>
+                              <Text style={styles.expCompany}>{edu.institution}</Text>
+                              <Text style={styles.expDate}>{edu.duration}</Text>
+                          </View>
+                          <Text style={styles.expRole}>
+                            <Text style={{ fontWeight: 'bold' }}>{edu.degree}</Text> in <Text style={{ fontWeight: 'bold' }}>{edu.field}</Text>
+                          </Text>
+                          {edu.description && (
+                            <Text style={styles.expDesc}>{edu.description}</Text>
+                          )}
+                      </View>
+                  ))}
+              </View>
+            )}
+
             {/* Skills */}
             <View>
                 <Text style={styles.sidebarTitle}>Skills</Text>
@@ -255,24 +275,7 @@ export const CVDocument: React.FC<CVDocumentProps> = ({ data }) => {
                 ))}
             </View>
 
-            {/* Education */}
-            {education && education.length > 0 && (
-              <View>
-                  <Text style={styles.sectionTitle}>Education</Text>
-                  {education.map((edu) => (
-                      <View key={edu.id} style={styles.expItem}>
-                          <View style={styles.expHeader}>
-                              <Text style={styles.expCompany}>{edu.institution}</Text>
-                              <Text style={styles.expDate}>{edu.duration}</Text>
-                          </View>
-                          <Text style={styles.expRole}>{edu.degree} in {edu.field}</Text>
-                          {edu.description && (
-                            <Text style={styles.expDesc}>{edu.description}</Text>
-                          )}
-                      </View>
-                  ))}
-              </View>
-            )}
+
         </View>
 
       </Page>
